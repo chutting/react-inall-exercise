@@ -39,7 +39,7 @@ html, body {
   justify-content: flex-end;
 }
 
-.calculator-page {
+.calculator-page, .timer-page {
   width: @img-width;
   height: 100%;
   background-color: #F0F1F1;
@@ -110,3 +110,48 @@ html, body {
   font-size: 20px;
 }
 
+.timer-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.timer-set {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.timer-set p {
+  font-size: 20px;
+  color: #717576;
+}
+
+.timer-show p {
+  width: 400px;
+  height: 150px;
+  margin: 0;
+  line-height:150px;
+  border: 1px solid #767777;
+  font-size: 50px;
+}
+
+.timer-start, .timer-show {
+  margin: 20px;
+}
+
+.timer-start-btn {
+  background-color: #4DABE8;
+  border: none;
+  color: white;
+  width: 300px;
+  height: 50px;
+}
+
+.timer-input {
+  height: 40px;
+  width: 200px;
+  border: 1px solid #E0E4E4;
+  margin-left: 20px;
+}
