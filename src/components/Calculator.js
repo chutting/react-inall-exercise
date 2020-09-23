@@ -91,7 +91,7 @@ class Calculator extends Component {
           }
         </div>
       </div>
-      <Link to="/" id="return-home">回到主页</Link>
+      <Link to="/" className="return-home">回到主页</Link>
     </div>
   }
 }
