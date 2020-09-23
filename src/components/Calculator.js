@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from "react-router-dom";
 
 class Calculator extends Component {
   state = {
@@ -80,7 +81,7 @@ class Calculator extends Component {
     return <div className="calculator-page">
       <h1>在线计算机</h1>
       <div className="calculator">
-      <p className="result">{this.state.result}</p>
+        <p className="result">{this.state.result}</p>
         <div className="calculator-operation">
           {
             buttonValueList.map(value=> <CalculatorButton 
@@ -90,6 +91,7 @@ class Calculator extends Component {
           }
         </div>
       </div>
+      <Link to="/" id="return-home">回到主页</Link>
     </div>
   }
 }
