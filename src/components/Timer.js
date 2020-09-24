@@ -4,28 +4,27 @@ import {Link} from "react-router-dom";
 class Timer extends Component {
 
   state = {
-    startTime: 0,
+    currentTime: 0,
     status: 'Start'
   }
 
   handleStart = () => {
-
-    if (this.state.startTime === 0) {
+    if (this.state.currentTime === 0) {
       this.setState({
         status: 'End'
       })
     } else {
       this.setState({
-        status: `${this.state.startTime} Seconds`
+        status: `${this.state.currentTime} Seconds`
       });
 
       let timer = setInterval(() => {
         this.setState({
-          startTime: this.state.startTime - 1,
-          status: `${this.state.startTime - 1} Seconds`
+          currentTime: this.state.currentTime - 1,
+          status: `${this.state.currentTime - 1} Seconds`
         })
   
-        if (this.state.startTime === 0) {
+        if (this.state.currentTime === 0) {
           clearInterval(timer);
           this.setState({
             status: 'End'
@@ -39,7 +38,7 @@ class Timer extends Component {
     const numberReg = /^[0-9]*$/;
     if (numberReg.test(event.target.value)) {
       this.setState({
-        startTime: Number(event.target.value)
+        currentTime: Number(event.target.value)
       })
     }
   }
@@ -51,7 +50,11 @@ class Timer extends Component {
         <div className="timer-start">
           <div className="timer-set">
             <p>设置时间</p>
-            <input type="text" className="timer-input" value={this.state.startTime} onChange={this.handleInit}></input>
+            <input type="text" 
+              className="timer-input" 
+              placeholder = "0" 
+              onChange={this.handleInit}
+              disabled={this.state.status !== 'Start' && this.state.status !== 'End'}></input>
           </div>
           <input type="submit" 
             value="Start" 

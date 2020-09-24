@@ -6,7 +6,8 @@ class Calculator extends Component {
     value1List: [],
     operation: '',
     value2List: [],
-    result: ''
+    result: '',
+    buttonValueList: ['+', '-', '×', 7, 8, 9, 4, 5, 6, 1, 2, 3, 0, 'Clear', '=']
   }
 
   handleClick = (event) => {
@@ -14,46 +15,89 @@ class Calculator extends Component {
     const numberReg = /[0-9]/;
     const operationReg = /^[\+\-\×]$/;
 
-    if (numberReg.test(value) && this.state.value1List.length === 0) {
-      this.setState({
-        value1List: this.state.value1List.concat(+value),
-        result: value,
-      })
-    }else if (numberReg.test(value) && this.state.operation === '') {
-      this.setState({
-        value1List: this.state.value1List.concat(+value),
-        result : this.state.result + value
-      })
-    } else if (operationReg.test(value) && this.state.operation === '') {
-      this.setState({
-        operation: value,
-        result : this.state.result + value
-      })
-    }else if (numberReg.test(value) && this.state.operation !== '') {
-      this.setState({
-        value2List: this.state.value2List.concat(+value),
-        result : this.state.result + value
-      })
-    }else if (value === '=' && this.state.value2List.length !== 0) {
-      this.setState({
-        value1List: [],
-        operation: '',
-        value2List: [],
-        result : this.calculate()
-      })
+    if (this.isValueInitNum(value, numberReg)) {
+      this.initResult(value);
+    }else if (this.isValueFirstValue(value, numberReg)) {
+      this.defineValue1(value);
+    } else if (this.isValueOperation(value, operationReg)) {
+      this.defineOperation(value);
+    }else if (this.isValueSecondValue(value, numberReg)) {
+      this.defineValue2(value);
+    }else if (this.isValueEqual(value)) {
+      this.outputCalculatorResult();
     } else {
-      this.setState({
-        value1List: [],
-        operation: '',
-        value2List: [],
-        result: ''
-      })
+      this.handleClear();
     }
+  }
+
+  isValueInitNum = (value, numberReg) => {
+    return numberReg.test(value) && this.state.value1List.length === 0;
+  }
+
+  isValueFirstValue = (value, numberReg) => {
+    return numberReg.test(value) && this.state.operation === '';
+  }
+
+  isValueSecondValue = (value, numberReg) => {
+    return numberReg.test(value) && this.state.operation !== '';
+  }
+
+  isValueOperation = (value, operationReg) => {
+    return operationReg.test(value) && this.state.operation === '' && this.state.value1List.length !== 0;
+  }
+
+  isValueEqual = (value) => {
+    return value === '=' && this.state.value2List.length !== 0;
+  }
+
+  initResult = (value) => {
+    this.setState({
+      value1List: this.state.value1List.concat(+value),
+      result: value,
+    })
+  }
+
+  defineValue1 = (value) => {
+    this.setState({
+      value1List: this.state.value1List.concat(+value),
+      result : this.state.result + value
+    })
+  }
+
+  defineOperation = (value) => {
+    this.setState({
+      operation: value,
+      result : this.state.result + value
+    })
+  }
+
+  defineValue2 = (value) => {
+    this.setState({
+      value2List: this.state.value2List.concat(+value),
+      result : this.state.result + value
+    })
+  }
+
+  outputCalculatorResult = () => {
+    this.setState({
+      value1List: [],
+      operation: '',
+      value2List: [],
+      result : this.calculate()
+    })
+  }
+
+  handleClear = () => {
+    this.setState({
+      value1List: [],
+      operation: '',
+      value2List: [],
+      result: ''
+    })
   }
 
   calculate = () => {
     let value1 = 0;
-
     let value2 = 0;
 
     this.state.value1List.forEach((number, index) => {
@@ -75,16 +119,15 @@ class Calculator extends Component {
     }
   }
 
-  render() {
-    const buttonValueList = ['+', '-', '×', 7, 8, 9, 4, 5, 6, 1, 2, 3, 0, 'Clear', '='];
 
+  render() {
     return <div className="calculator-page">
       <h1>在线计算机</h1>
       <div className="calculator">
         <p className="result">{this.state.result}</p>
         <div className="calculator-operation">
           {
-            buttonValueList.map(value=> <CalculatorButton 
+            this.state.buttonValueList.map(value=> <CalculatorButton 
               value = {value} 
               key={`calculator-button-${value}`}
               onClick={this.handleClick}/>)
